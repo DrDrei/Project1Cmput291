@@ -16,5 +16,3 @@ if __name__ == "__main__":
     app = simpleapp_tk(None)
     app.title('my application')
     app.mainloop()
-    
-    poop
