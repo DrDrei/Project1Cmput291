@@ -1,4 +1,6 @@
 import tkinter
+import sys
+import cx_Oracle
 
 class simpleapp_tk(tkinter.Tk):
     def __init__(self,parent):
