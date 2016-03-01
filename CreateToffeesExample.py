@@ -15,41 +15,43 @@ def createTable():
 	# get username
 	user = input("Username [%s]: " % getpass.getuser())
 	if not user:
-    		user=getpass.getuser()
+    		user = getpass.getuser()
 	
 	# get password
 	pw = getpass.getpass()
 
 	# The URL we are connnecting to
-	conString=''+user+'/' + pw +'@gwynne.cs.ualberta.ca:1521/CRS'
+	conString = '' + user + '/' + pw + '@gwynne.cs.ualberta.ca:1521/CRS'
 	
 	# SQL statement to execute
 	createStr = ("create table TOFFEES "
-	"(T_NAME VARCHAR(32) PRIMARY KEY, SUP_ID INTEGER, PRICE FLOAT, SALES INTEGER, TOTAL INTEGER)")
+		"(T_NAME VARCHAR(32) PRIMARY KEY, SUP_ID INTEGER, PRICE FLOAT, SALES INTEGER, TOTAL INTEGER)")
 	
 	try:
 		# Establish a connection in Python
 		connection = cx_Oracle.connect(conString)
 
 		# create a cursor 
-		curs = connection.cursor()
-		curs.execute("drop table toffees")
-		curs.execute(createStr)
+		cursor = connection.cursor()
+		cursor.execute("drop table toffees")
+		cursor.execute(createStr)
 		
-		data = [('Quadbury', 101, 7.99, 0, 0), ('Smarties',102,6.99,1,2)]
+		data = [('Quadbury', 101, 7.99, 0, 0), 
+				('Smarties', 102, 6.99, 1, 2)]
 
-		curs.bindarraysize = 2
-		curs.setinputsizes(32, int, float, int, int)
-		curs.executemany("INSERT INTO TOFFEES(T_NAME, SUP_ID, PRICE, SALES, TOTAL) "
+		cursor.bindarraysize = 2
+		cursor.setinputsizes(32, int, float, int, int)
+		cursor.executemany("INSERT INTO TOFFEES(T_NAME, SUP_ID, PRICE, SALES, TOTAL) "
                                     "VALUES (:1, :2, :3, :4, :5)", data)
-		#curs.execute("INSERT INTO TOFFEES "
+		#cursor.execute("INSERT INTO TOFFEES "
 		#"VALUES('Quadbury',101,7.99,0,0)")
 		connection.commit()
 		
 		# executing a query
-		curs.execute("SELECT * from TOFFEES")
+		cursor.execute("SELECT * from TOFFEES")
+		
 		# get all data and print it
-		rows = curs.fetchall()
+		rows = cursor.fetchall()
 		for row in rows:
 			print(row)
 		
@@ -62,7 +64,7 @@ def createTable():
 			print(row[0]," ",row[1])
 
 		# close the connection
-		curs.close()
+		cursor.close()
 		connection.close()
 
 	except cx_Oracle.DatabaseError as exc:
