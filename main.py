@@ -1,15 +1,15 @@
-import Tkinter
+import tkinter
 
-class simpleapp_tk(Tkinter.Tk):
+class simpleapp_tk(tkinter.Tk):
     def __init__(self,parent):
-        Tkinter.Tk.__init__(self,parent)
+        tkinter.Tk.__init__(self,parent)
         self.parent = parent
         self.initialize()
 
     def initialize(self):
         self.grid()
 
-        self.entry = Tkinter.Entry(self)
+        self.entry = tkinter.Entry(self)
         self.entry.grid(column=0,row=0,sticky='EW')
 
 if __name__ == "__main__":
