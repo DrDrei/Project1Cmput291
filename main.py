@@ -1,6 +1,5 @@
 import tkinter
 import sys
-import cx_Oracle
 
 class simpleapp_tk(tkinter.Tk):
     def __init__(self,parent):
@@ -10,7 +9,6 @@ class simpleapp_tk(tkinter.Tk):
 
     def initialize(self):
         self.grid()
-
         self.entry = tkinter.Entry(self)
         self.entry.grid(column=0,row=0,sticky='EW')
 

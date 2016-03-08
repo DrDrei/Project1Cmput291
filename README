@@ -5,4 +5,9 @@ THINGS YOU NEED TO MAKE THIS WORK:
 
 TO DO:
 1. Start work on the GUI
-2. Populate the tables with data, might need to get changed depending on project specs.
+2. Break up seperate GUI parts into seperate files to make it easier to troubleshoot and manage errors.
+
+STEPS TO MAKE IT RUN:
+1. Upload all the necessary files to your cs profile (via "scp filename.py *****@ohaton.cs.ualberta.ca:" - make sure to include the ":")
+2. SSH into your cs profile in another terminal (via "ssh -X *****@ohaton.cs.ualberta.ca")
+3. run "python3 main.py"
