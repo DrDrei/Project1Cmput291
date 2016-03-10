@@ -5,12 +5,14 @@ Created on Mar 10, 2016
 '''
 
 import tkinter as tk
-from pip._vendor.cachecontrol import controller
+from NewVehReg import NewVehReg
+from AutoReg import AutoReg
+from DLReg import DLReg
+from VioReg import VioReg
+from SearchEng import SearchEng
 
 TITLE_FONT = ("Helvetica", 16, "bold")
-
 class DBApp(tk.Tk):
-
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
@@ -19,7 +21,7 @@ class DBApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo, MainMenu, NewVehReg):
+        for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng):
             page_name = F.__name__
             frame = F(container, self)
             self.frames[page_name] = frame
@@ -29,7 +31,7 @@ class DBApp(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("StartPage")
+        self.show_frame("MainMenu")
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -48,16 +50,20 @@ class MainMenu(tk.Frame):
                                    command = lambda: controller.show_frame('NewVehReg'))
 
         autoRegButton = tk.Button(self,
-                                    text = "Auto Transaction")
+                                    text = "Auto Transaction",
+                                    command = lambda: controller.show_frame('AutoReg'))
 
         DLRegButton = tk.Button(self,
-                                text = "Driver License Registration")        
+                                text = "Driver License Registration",
+                                command = lambda: controller.show_frame('DLReg'))        
         
         violationRecButton = tk.Button(self,
-                                         text = "Violation Record")
+                                         text = "Violation Record",
+                                         command = lambda: controller.show_frame('VioReg'))
         
         searchEngButton = tk.Button(self,
-                                      text = "Search Engine")        
+                                      text = "Search Engine",
+                                      command = lambda: controller.show_frame('SearchEng'))        
 
         quitButton = tk.Button(self,
                              text = "Quit",
@@ -69,55 +75,7 @@ class MainMenu(tk.Frame):
         violationRecButton.pack(fill='x')
         searchEngButton.pack(fill='x')
         quitButton.pack(fill='x')
-        
-class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is the start page", font=TITLE_FONT)
-        label.pack(side="top", fill="x", pady=10)
 
-        button1 = tk.Button(self, text="Go to Page One",
-                            command=lambda: controller.show_frame("PageOne"))
-        button2 = tk.Button(self, text="Go to Page Two",
-                            command=lambda: controller.show_frame("PageTwo"))
-        button3 = tk.Button(self, text="Go to Main Menu",
-                            command=lambda: controller.show_frame("MainMenu"))
-        button1.pack()
-        button2.pack()
-        button3.pack()
-
-class PageOne(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is page 1", font=TITLE_FONT)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-        button.pack()
-
-
-class PageTwo(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is page 2", font=TITLE_FONT)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-        button.pack()
-        
-class NewVehReg(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text = 'Register a New Vehicle')
-        label.pack(fill = 'x')
-        
-        backBtn = tk.Button(self, text = 'Back',
-                            command = lambda: controller.show_frame("MainMenu"))
-        backBtn.pack()
 
 if __name__ == "__main__":
     app = DBApp()
