@@ -58,7 +58,7 @@ class MainMenu(tk.Frame):
                                 command = lambda: controller.show_frame('DLReg'))        
         
         violationRecButton = tk.Button(self,
-                                         text = "Violation Record",
+                                       text = "Violation Record",
                                          command = lambda: controller.show_frame('VioReg'))
         
         searchEngButton = tk.Button(self,

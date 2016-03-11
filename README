@@ -9,5 +9,6 @@ TO DO:
 
 STEPS TO MAKE IT RUN:
 1. Upload all the necessary files to your cs profile (via "scp filename.py *****@ohaton.cs.ualberta.ca:" - make sure to include the ":")
-2. SSH into your cs profile in another terminal (via "ssh -X *****@ohaton.cs.ualberta.ca")
+*** (you can also use "scp -r foldername/ *****@ohaton.cs.ulaberta.ca:Project1" to push the entire folder to the uofa server)
+2. SSH into your cs profile in another terminal (via "ssh -X *****@ohaton.cs.ualberta.ca:")
 3. run "python3 main.py"
