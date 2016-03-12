@@ -16,7 +16,7 @@ from DBConnect import DBTables
 
 TITLE_FONT = ("Helvetica", 16, "bold")
 class DBApp(tk.Tk):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, connectionStr, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -26,12 +26,8 @@ class DBApp(tk.Tk):
         self.frames = {}
         for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng):
             page_name = F.__name__
-            frame = F(container, self)
+            frame = F(connectionStr, container, self)
             self.frames[page_name] = frame
-
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("MainMenu")
@@ -42,7 +38,7 @@ class DBApp(tk.Tk):
         frame.tkraise()
 
 class MainMenu(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, connectionStr, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text = "Main Menu", font = TITLE_FONT)
@@ -86,5 +82,5 @@ if __name__ == "__main__":
     while not initDB.connectionStr:
         time.sleep(3)
         print(initDB.connectionStr)
-    app = DBApp()
+    app = DBApp(initDB.connectionStr)
     app.mainloop()

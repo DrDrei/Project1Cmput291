@@ -6,7 +6,7 @@ Created on Mar 10, 2016
 import tkinter as tk
 
 class VioReg(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, connectionStr, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text = 'Violation Record registration:')

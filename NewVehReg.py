@@ -13,7 +13,7 @@ class NewVehReg(tk.Frame):
     isValid = False
     
     
-    def __init__(self, parent, controller):
+    def __init__(self, connectionStr, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
