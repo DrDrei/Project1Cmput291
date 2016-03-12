@@ -5,11 +5,14 @@ Created on Mar 10, 2016
 '''
 
 import tkinter as tk
+import time
 from NewVehReg import NewVehReg
 from AutoReg import AutoReg
 from DLReg import DLReg
 from VioReg import VioReg
 from SearchEng import SearchEng
+
+from DBConnect import DBTables
 
 TITLE_FONT = ("Helvetica", 16, "bold")
 class DBApp(tk.Tk):
@@ -78,5 +81,10 @@ class MainMenu(tk.Frame):
 
 
 if __name__ == "__main__":
+    
+    initDB = DBTables()
+    while not initDB.connectionStr:
+        time.sleep(3)
+        print(initDB.connectionStr)
     app = DBApp()
     app.mainloop()
