@@ -8,17 +8,17 @@ import getpass # the package for getting password from user without displaying i
 
 class DBTables(): 
 	connectionStr = ''	
-	def __init__(self, *args, **kwargs):
-		self.CreateTable()
+# 	def __init__(self, *args, **kwargs):
+# 		self.CreateTable()
 	
-	def CreateTable(self):	
+	def CreateTables(self):	
 		user = input("Username [%s]: " % getpass.getuser())
 		if not user:
 			user=getpass.getuser()
 		pw = getpass.getpass()
 		
-		self.connectionStr = '' + user + '/' + pw +'@gwynne.cs.ualberta.ca:1521/CRS'
-		
+		connectionStr = '' + user + '/' + pw +'@gwynne.cs.ualberta.ca:1521/CRS'
+		self.connectionStr = connectionStr
 		try:
 			connection = cx_Oracle.connect(self.connectionStr)
 			cursor = connection.cursor()
@@ -138,7 +138,38 @@ class DBTables():
 			error, = exc.args
 			print( sys.stderr, "Oracle code:", error.code)
 			print( sys.stderr, "Oracle message:", error.message)
-	
+			
+	def getData(self, connectionStr, selectStatement):
+		try:
+			connection = cx_Oracle.connect(connectionStr)
+			cursor = connection.cursor()
+			cursor.execute(selectStatement)
+			data = cursor.fetchall()
+			dataList =[]
+			for each in data:
+				dataList.append(each[0])
+			cursor.close()
+			connection.close()
+			return dataList
+			
+		except cx_Oracle.DatabaseError as exc:
+			error, = exc.args
+			print( sys.stderr, "Oracle code:", error.code)
+			print( sys.stderr, "Oracle message:", error.message)
+			
+	def pushData(self, connectionStr, insertStatement):
+		try:
+			connection = cx_Oracle.connect(connectionStr)
+			cursor = connection.cursor()
+			cursor.execute(insertStatement)
+			connection.commit()
+			cursor.close()
+			connection.close()
+			
+		except cx_Oracle.DatabaseError as exc:
+			error, = exc.args
+			print( sys.stderr, "Oracle code:", error.code)
+			print( sys.stderr, "Oracle message:", error.message)
 	
 	# if __name__ == "__main__":
 	# 	createTable()
