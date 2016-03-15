@@ -12,6 +12,7 @@ from AutoReg import AutoReg
 from DLReg import DLReg
 from VioReg import VioReg
 from SearchEng import SearchEng
+from NewPerson import NewPerson
 
 from DBConnect import DBTables
 
@@ -26,7 +27,7 @@ class DBApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng):
+        for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng, NewPerson):
             page_name = F.__name__
             frame = F(connectionStr, container, self)
             self.frames[page_name] = frame
