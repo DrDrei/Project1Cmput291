@@ -30,7 +30,7 @@ class NewVehReg(tk.Frame):
         ownerText = tk.Text(self, height = heightText, width = widthText)
         ownerText.config(bg = self.valid)
         ownerText.grid(row = rowIndex, column = 1)
-        ownerConfig = '^[a-zA-Z0-9]{1,15}$'
+        ownerConfig = '^[0-9]{1,15}$'
 
         rowIndex += 1        
         ownerLabelErr = tk.Label(self, text = 'Primary Owner not in Database, please add them.')
@@ -43,7 +43,7 @@ class NewVehReg(tk.Frame):
         secondaryText = tk.Text(self, height = heightText, width = widthText)
         secondaryText.config(bg = self.valid)
         secondaryText.grid(row = rowIndex, column = 1)
-        secondaryConfig = '^[a-zA-Z0-9]{1,15}$'
+        secondaryConfig = '^[0-9]{1,15}$'
         
         rowIndex += 1
         secondaryLabelErr = tk.Label(self, text = 'Secondary Owner not in Database, please add them.')

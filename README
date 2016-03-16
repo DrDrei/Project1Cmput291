@@ -4,8 +4,13 @@ THINGS YOU NEED TO MAKE THIS WORK:
 3. Be a student with access to the "@gwynne.cs.ualberta.ca:1521/CRS" extension at the University of Alberta
 
 TO DO:
-1. Start work on the GUI
-2. Break up seperate GUI parts into seperate files to make it easier to troubleshoot and manage errors.
+- Finish up New Veh Reg
+- Start on other screens, groundwork is laid shouldn't take too long... just the error handling takes a while.
+- 
+- Time permitting, fix the date functionality when creating a new Person to remove errors like Nov 31st etc...
+- Time permitting, fix prefix space for error handling.
+- Time permitting, is Char[x] only for numbers? no other characters? 
+
 
 STEPS TO MAKE IT RUN:
 1. Upload all the necessary files to your cs profile (via "scp filename.py *****@ohaton.cs.ualberta.ca:" - make sure to include the ":")
