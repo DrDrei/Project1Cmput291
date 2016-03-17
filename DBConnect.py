@@ -157,6 +157,20 @@ class DBTables():
 			print( sys.stderr, "Oracle code:", error.code)
 			print( sys.stderr, "Oracle message:", error.message)
 			
+	def getRawData(self, connectionStr, selectStatement):
+		try:
+			connection = cx_Oracle.connect(connectionStr)
+			cursor = connection.cursor()
+			cursor.execute(selectStatement)
+			data = cursor.fetchall()
+			cursor.close()
+			connection.close()
+			return data
+		except cx_Oracle.DatabaseError as exc:
+			error, = exc.args
+			print( sys.stderr, "Oracle code:", error.code)
+			print( sys.stderr, "Oracle message:", error.message)
+			
 	def pushData(self, connectionStr, insertStatement):
 		try:
 			connection = cx_Oracle.connect(connectionStr)

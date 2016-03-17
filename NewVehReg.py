@@ -11,7 +11,8 @@ class NewVehReg(tk.Frame):
     isDBValid = False
     connectionStr = ''
     vehicleData = []
-        
+    ownerData =[]
+            
     def __init__(self, connectionStr, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -25,7 +26,7 @@ class NewVehReg(tk.Frame):
         label.grid(row = rowIndex, column = 0, columnspan = 2)
         
         rowIndex += 1
-        ownerLabel = tk.Label(self, text = 'Primary Owner SIN: ')
+        ownerLabel = tk.Label(self, text = 'Owner SIN: ')
         ownerLabel.grid(row = rowIndex, column = 0)
         ownerText = tk.Text(self, height = heightText, width = widthText)
         ownerText.config(bg = self.valid)
@@ -38,12 +39,12 @@ class NewVehReg(tk.Frame):
         ownerLabelErr.grid_remove()
         
         rowIndex += 1
-        secondaryLabel = tk.Label(self, text = 'Secondary Owner SIN: ')
+        secondaryLabel = tk.Label(self, text = 'Is Primary Owner? [y/n]: ')
         secondaryLabel.grid(row = rowIndex, column = 0)
         secondaryText = tk.Text(self, height = heightText, width = widthText)
         secondaryText.config(bg = self.valid)
         secondaryText.grid(row = rowIndex, column = 1)
-        secondaryConfig = '^[0-9]{1,15}$'
+        secondaryConfig = '^(n|y){1}$'
         
         rowIndex += 1
         secondaryLabelErr = tk.Label(self, text = 'Secondary Owner not in Database, please add them.')
@@ -136,16 +137,16 @@ class NewVehReg(tk.Frame):
                                                            validate(ownerText, ownerConfig, ownerLabelErr),
                                                            validate(secondaryText, secondaryConfig, secondaryLabelErr),
                                                            validate(serialText, serialConfig, serialLabelErr),
-                                                           validate(makerText, makerConfig, makerLabelErr),
-                                                           validate(modelText, modelConfig, modelLabelErr),
-                                                           validate(yearText, yearConfig, yearLabelErr),
-                                                           validate(colorText, colorConfig, colorLabelErr),
-                                                           validate(typeText, typeConfig, typeLabelErr),
-                                                           validateDBserial(serialText),
-                                                           validateDBtype(typeText),
-                                                           validateDBowner(ownerText),
-                                                           validateDBowner(secondaryText),
-                                                           pushDataToDB()))
+#                                                             validate(makerText, makerConfig, makerLabelErr),
+#                                                             validate(modelText, modelConfig, modelLabelErr),
+#                                                             validate(yearText, yearConfig, yearLabelErr),
+#                                                             validate(colorText, colorConfig, colorLabelErr),
+                                                            validate(typeText, typeConfig, typeLabelErr),
+#                                                             validateDBserial(serialText),
+                                                            validateDBsin(ownerText),
+                                                            validateDBtype(typeText),
+                                                            validateDBowner(ownerText, serialText),
+                                                            ))
                                                                         
         submitBtn.grid(row = rowIndex, column = 1)
         
@@ -160,17 +161,19 @@ class NewVehReg(tk.Frame):
         
         def submit():
             self.isValid = True
-            self.isDBValid = True
+            self.isDBValid = False
             self.vehicleData = [serialText.get('1.0','end').rstrip(),
                                 '\'' + makerText.get('1.0','end').rstrip()+'\'',
                                 '\'' + modelText.get('1.0','end').rstrip() +'\'',
                                 yearText.get('1.0','end').rstrip(),
                                 '\'' + colorText.get('1.0','end').rstrip() +'\'',
                                 typeText.get('1.0','end').rstrip()]
+            self.ownerData = [ownerText.get('1.0','end').rstrip(),
+                              serialText.get('1.0','end').rstrip(),
+                              '\'' + secondaryText.get('1.0', 'end').rstrip() +'\'']
         
         def validate(textField, regConfig, textFieldErr):
-            print(textField.get('1.0','end'))
-            if regex.match(regConfig,textField.get('1.0','end')):
+            if regex.match(regConfig,textField.get('1.0','end').rstrip()):
                 textField.config(bg = self.valid)
                 textFieldErr.grid_remove()
             else:
@@ -178,17 +181,71 @@ class NewVehReg(tk.Frame):
                 self.isValid = False
                 textFieldErr.grid()
                 
-        def validateDBowner(textField):
+#         def validateAndPushOwners(primaryField, secondaryField, primaryErr, secondaryErr, primaryConfig, secondaryConfig):
+#             primary = primaryField.get('1.0','end').rstrip()
+#             secondary = secondaryField.get('1.0','end').rstrip()
+#             
+#             primaryErr.grid_remove()
+#             secondaryErr.grid_remove()
+#             
+#             isDBprimary = False
+#             
+#             def validation(textField, regConfig):
+#                 if regex.match(regConfig,textField.get('1.0','end')):
+#                     textField.config(bg = self.valid)
+#                 else:
+#                     textField.config(bg = self.invalid)
+#                     
+#             def pushOwners(insertList):
+#                 if self.isDBValid and self.isValid:
+#                     insertStatement = 'INSERT INTO owner VALUES('
+#                     for each in insertList:
+#                         insertStatement += each.rstrip() + ','
+#                     insertStatement = insertStatement[:-1]
+#                     insertStatement += ')'
+#                     DBTables.pushData(self, self.connectionStr, insertStatement)
+#             
+#             def validateDBowner(textField):
+#                 if self.isValid:
+#                     getOwner = 'SELECT sin FROM people'
+#                     ownerData = DBTables.getData(self, self.connectionStr, getOwner)
+#                     compStr = str(textField.get('1.0','end'))
+#                     for each in ownerData:
+#                         if each.rstrip() == compStr.rstrip():
+#                             textField.config(bg = self.invalid)
+#                             self.isDBprimary = True
+#                             print('owner in DB')
+#                     
+#             if len(primary) == 0 and len(secondary) == 0:
+#                 secondaryErr.config(text='Select either secondary or primary')
+#                 secondaryErr.grid()
+#                 validation(primaryField, primaryConfig)
+#                 validation(secondaryField, secondaryConfig)
+#                 self.isValid = False
+#             elif len(primary) > 0 and len(secondary) == 0:
+#                 validation(primaryField, primaryConfig)
+#                 secondaryField.config(bg = self.valid)
+#                 validateDBowner(primaryField)
+#                 if isDBprimary:
+#                     pushOwners(self.primaryData)
+#             elif len(primary) == 0 and len(secondary) > 0:
+#                 
+#                 primaryField.config(bg = self.valid)
+#             else:
+#                 print('both')
+        
+        def validateDBsin(textField):
             if self.isValid:
                 getOwner = 'SELECT sin FROM people'
                 ownerData = DBTables.getData(self, self.connectionStr, getOwner)
-                compStr = str(textField.get('1.0','end'))
-                for each in ownerData:
-                    print(str(each))
-                    if each.rstrip() == compStr.rstrip():
-                        self.isDBValid = False
-                        textField.config(bg = self.invalid)
-                        print('owner in DB')
+                compStr = str(textField.get('1.0','end').rstrip())
+                for i, item in enumerate(ownerData):
+                    ownerData[i] = item.rstrip()
+                if compStr not in ownerData:
+                    textField.config(bg = self.invalid)
+                    self.isDBowner = False
+                    print('sin not in DB')
+                        
                         
         def validateDBserial(textField):
             if self.isValid:
@@ -201,29 +258,47 @@ class NewVehReg(tk.Frame):
                         textField.config(bg = self.invalid)
                         print('serial in DB')
         
+        
+        def validateDBowner(ownerField, serialField):
+            if self.isValid:
+                getData = 'SELECT owner_id, vehicle_id FROM owner'
+                data = DBTables.getRawData(self, self.connectionStr, getData)
+                print(data)
+                for i, item in enumerate(data):
+                    data[i] = (item[0].rstrip(), item[1].rstrip())
+                owner = ownerField.get('1.0','end').rstrip()
+                serial = serialField.get('1.0', 'end').rstrip()
+                both = (owner, serial)
+                if both in data:
+                    print('vehicle already registered to this user')
+                else:
+                    pushVehicleToDB()
+                        
+        
+        
         def validateDBtype(textField):
             if self.isValid:
                 getType = 'SELECT type_id FROM vehicle_type'
                 typeData = DBTables.getData(self, self.connectionStr, getType)
                 intData = []
                 for each in typeData:
-                    intData.append(int(each))
-                compStr = int(textField.get('1.0','end'))
-                if compStr not in intData:
+                    intData.append(each)
+                compStr = textField.get('1.0','end').rstrip()
+                if int(compStr) not in intData:
                     self.isDBValid = False
                     textField.config(bg = self.invalid)
                     print('type not in DB')
                     
                     
-        def pushDataToDB():
+        def pushVehicleToDB():
             if self.isDBValid and self.isValid:
                 insertStatement = 'INSERT INTO vehicle VALUES('
                 for each in self.vehicleData:
                     insertStatement += each.rstrip() + ','
                 insertStatement = insertStatement[:-1]
                 insertStatement += ')'
-                print(insertStatement)
                 DBTables.pushData(self, self.connectionStr, insertStatement)
+                
                 
         def combineFuncs(*funcs):
             def combinedFunc(*args, **kwargs):

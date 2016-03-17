@@ -7,9 +7,12 @@ TO DO:
 - Finish up New Veh Reg
 - Start on other screens, groundwork is laid shouldn't take too long... just the error handling takes a while.
 - 
+
+- Last Step, fix login to not generate a new database, but use the existing one for TA use.
 - Time permitting, fix the date functionality when creating a new Person to remove errors like Nov 31st etc...
 - Time permitting, fix prefix space for error handling.
-- Time permitting, is Char[x] only for numbers? no other characters? 
+- Time permitting, is Char[x] only for numbers? no other characters?
+ 
 
 
 STEPS TO MAKE IT RUN:
