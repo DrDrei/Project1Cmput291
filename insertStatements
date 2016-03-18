@@ -6,6 +6,7 @@ INSERT INTO people VALUES(444555,'Carl',163,183,'neon','brown','123 street','m',
 INSERT INTO people VALUES(555666,'Susan',164,184,'white','gray','124 street','f',TO_DATE('19850102', 'YYYYMMDD'))
 INSERT INTO people VALUES(666777,'Carol',165,185,'brown','black','125 street','f',TO_DATE('19830809', 'YYYYMMDD'))
 INSERT INTO people VALUES(777888,'Officer',165,185,'brown','black','119 street','m',TO_DATE('19820809', 'YYYYMMDD'))
+INSERT INTO people VALUES(777999,'Officer',165,185,'brown','black','119 street','m',TO_DATE('19820809', 'YYYYMMDD'))
 -- drive_licence(licence_no,sin,class,photo,issuing_date,expiring_date)
 INSERT INTO drive_licence VALUES(111111, 111222, 'class 1', 'abc',TO_DATE('20140101', 'YYYYMMDD'),TO_DATE('20160101', 'YYYYMMDD'))
 INSERT INTO drive_licence VALUES(333333, 222333, 'class 2', 'abc',TO_DATE('20130101', 'YYYYMMDD'),TO_DATE('20160101', 'YYYYMMDD'))

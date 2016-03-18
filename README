@@ -3,21 +3,44 @@ THINGS YOU NEED TO MAKE THIS WORK:
 2. getPass package
 3. Be a student with access to the "@gwynne.cs.ualberta.ca:1521/CRS" extension at the University of Alberta
 
-TO DO:
-- Finish up New Veh Reg
-- Start on other screens, groundwork is laid shouldn't take too long... just the error handling takes a while.
-- 
-
-- Last Step, fix login to not generate a new database, but use the existing one for TA use.
-- Time permitting, fix the date functionality when creating a new Person to remove errors like Nov 31st etc...
-- Time permitting, fix prefix space for error handling.
-- Time permitting, is Char[x] only for numbers? no other characters?
-- DL instead of sin for violation records.
- 
-
-
 STEPS TO MAKE IT RUN:
 1. Upload all the necessary files to your cs profile (via "scp filename.py *****@ohaton.cs.ualberta.ca:" - make sure to include the ":")
 *** (you can also use "scp -r foldername/ *****@ohaton.cs.ulaberta.ca:Project1" to push the entire folder to the uofa server)
 2. SSH into your cs profile in another terminal (via "ssh -X *****@ohaton.cs.ualberta.ca:")
 3. run "python3 main.py"
+
+Demo:
+- To demo our project with our own data, you can uncomment lines in DBConnect from 21-23.
+
+Project Description:
+The application system we created uses 9 key classes to deliver the major functions of the program. Our 
+main menu page contains 5 application programs the user can choose from, each of which leads to a 
+new page. 
+
+DBTables - is the only class that connects to the database. It is used to create, drop, store, delete and 
+populate the tables in sql, it is not located on any page.
+
+NewPerson - Is used to store information about a person in the database, it has its own page that is 
+linked to from Vehicle Registration. There are 2 more classes of NewPerson, labeled NewPerson2 and 
+NewPerson3, which respectively is linked to by  Auto Transaction, and Driver License Registration.
+   
+New vehicle registration - is accessed from the main page and is a class used to register vehicles to 
+primary owners and secondary owners that connects to DBTables. At any time the class NewPerson can 
+be accessed from New Vehicle registration. 
+
+Auto Transaction - is accessed from the main page and is a class used to keep track of auto sales of 
+vehicles that connects to DBTables. At any time the class NewPerson2 can be accessed from Auto 
+transaction. 
+
+Driver license registration - is accessed from the main page and is used register a driver’s license to 
+people. It connects to DBTables to store the people’s driver’s license information. At any time the class 
+NewPerson3 can be accessed from Driver license registration. 
+
+Violation Record - is only accessed from the main page. It registers any violations that occur to an 
+primary/secondary owner of a vehicle, that’s the only time it will connect to DBTables. 
+
+Search Engine - can only be accessed from the main page. Retrieves all information about a person. Only 
+access DBTables to grab the data that’s needed. 
+
+DBApp – sets up and connects all the frames for each page together.
+The entire program gui and applications are connected through pythons library of tkinter.

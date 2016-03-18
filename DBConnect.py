@@ -1,16 +1,9 @@
-# Note: Python does not have an auto commit. Thus, commit at the end of each statement is important.
-# python3 CreateToffees.py
-# File from introduction to cx_oracle
-
 import sys
-import cx_Oracle # the package used for accessing Oracle in Python
-import getpass # the package for getting password from user without displaying it
+import cx_Oracle
+import getpass
 
 class DBTables(): 
 	connectionStr = ''	
-# 	def __init__(self, *args, **kwargs):
-# 		self.CreateTable()
-	
 	def CreateTables(self):	
 		user = input("Username [%s]: " % getpass.getuser())
 		if not user:
@@ -22,34 +15,15 @@ class DBTables():
 		try:
 			connection = cx_Oracle.connect(self.connectionStr)
 			cursor = connection.cursor()
-			self.dropTables(self.connectionStr)
-			self.createTables(self.connectionStr)
-			self.generateData(self.connectionStr)
+# 			self.dropTables(self.connectionStr)
+# 			self.createTables(self.connectionStr)
+# 			self.generateData(self.connectionStr)
 	
 	
 			connection.commit()
 			cursor.close()
 			connection.close()
-	
-			# data = [('Quadbury', 101, 7.99, 0, 0), ('Smarties',102,6.99,1,2)]
-			# cursor.bindarraysize = 2
-			# cursor.setinputsizes(32, int, float, int, int)
-			# cursor.executemany("INSERT INTO TOFFEES(T_NAME, SUP_ID, PRICE, SALES, TOTAL) ""VALUES (:1, :2, :3, :4, :5)", data)
-			# curs.execute("INSERT INTO TOFFEES ""VALUES('Quadbury',101,7.99,0,0)")
-			
-			
-			# cursor.execute("SELECT * from people")
-			# rows = cursor.fetchall()
-			# for row in rows:
-			# 	print(row)
-			
-			# getting metadata
-			# rows = cursor.description
-			# columnCount = len(rows)
-			# (name, type, display_size,internal_size,precision,scale,null_ok)
-			# for row in rows:
-			# 	print(row[0]," ",row[1])
-	
+		
 		except cx_Oracle.DatabaseError as exc:
 			error, = exc.args
 			print( sys.stderr, "Oracle code:", error.code)
@@ -184,6 +158,3 @@ class DBTables():
 			error, = exc.args
 			print( sys.stderr, "Oracle code:", error.code)
 			print( sys.stderr, "Oracle message:", error.message)
-	
-	# if __name__ == "__main__":
-	# 	createTable()

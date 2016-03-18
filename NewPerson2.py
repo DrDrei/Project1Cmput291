@@ -11,7 +11,7 @@ from DBConnect import DBTables
 from cgi import valid_boundary
 
 
-class NewPerson(tk.Frame):
+class NewPerson2(tk.Frame):
     valid = 'light grey'
     invalid = 'red'
     isInputValid = False
@@ -118,7 +118,7 @@ class NewPerson(tk.Frame):
                                                                                     pushDataToDB()))                                                          
         submitBtn.grid(row = rowIndex, column = 1)
         
-        backBtn = tk.Button(self, text = 'Back', command = lambda: controller.show_frame('NewVehReg'))
+        backBtn = tk.Button(self, text = 'Back', command = lambda: controller.show_frame('AutoReg'))
         backBtn.grid(row = rowIndex, column = 0)
         
         def submit():

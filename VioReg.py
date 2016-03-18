@@ -1,8 +1,3 @@
-'''
-Created on Mar 10, 2016
-
-@author: drei
-'''
 import tkinter as tk
 import re as regex
 from DBConnect import DBTables

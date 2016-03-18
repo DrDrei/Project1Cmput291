@@ -1,5 +1,3 @@
-
-
 import tkinter as tk
 import re as regex
 from DBConnect import DBTables
@@ -137,12 +135,12 @@ class NewVehReg(tk.Frame):
                                                            validate(ownerText, ownerConfig, ownerLabelErr),
                                                            validate(secondaryText, secondaryConfig, secondaryLabelErr),
                                                            validate(serialText, serialConfig, serialLabelErr),
-#                                                             validate(makerText, makerConfig, makerLabelErr),
-#                                                             validate(modelText, modelConfig, modelLabelErr),
-#                                                             validate(yearText, yearConfig, yearLabelErr),
-#                                                             validate(colorText, colorConfig, colorLabelErr),
+                                                            validate(makerText, makerConfig, makerLabelErr),
+                                                            validate(modelText, modelConfig, modelLabelErr),
+                                                            validate(yearText, yearConfig, yearLabelErr),
+                                                            validate(colorText, colorConfig, colorLabelErr),
                                                             validate(typeText, typeConfig, typeLabelErr),
-#                                                             validateDBserial(serialText),
+                                                            validateDBserial(serialText),
                                                             validateDBsin(ownerText),
                                                             validateDBtype(typeText),
                                                             validateDBowner(ownerText, serialText),
@@ -161,7 +159,7 @@ class NewVehReg(tk.Frame):
         
         def submit():
             self.isValid = True
-            self.isDBValid = False
+            self.isDBValid = True
             self.vehicleData = [serialText.get('1.0','end').rstrip(),
                                 '\'' + makerText.get('1.0','end').rstrip()+'\'',
                                 '\'' + modelText.get('1.0','end').rstrip() +'\'',
@@ -191,6 +189,7 @@ class NewVehReg(tk.Frame):
                 if compStr not in ownerData:
                     textField.config(bg = self.invalid)
                     self.isDBowner = False
+                    self.isValid = False
                     print('sin not in DB')
                         
                         
@@ -198,30 +197,31 @@ class NewVehReg(tk.Frame):
             if self.isValid:
                 getSerial = 'SELECT serial_no FROM vehicle'
                 serialData = DBTables.getData(self, self.connectionStr, getSerial)
-                compStr = textField.get('1.0','end')
-                for each in serialData:
-                    if int(each) == int(compStr):
-                        self.isDBValid = False
-                        textField.config(bg = self.invalid)
-                        print('serial in DB')
-        
+                compStr = textField.get('1.0','end').rstrip()
+                for i, item in enumerate(serialData):
+                    serialData[i] = item.rstrip()
+                if compStr in serialData: 
+                    self.isDBValid = False
+                    self.isValid = False
+                    textField.config(bg = self.invalid)
+                    print('serial already in DB')
         
         def validateDBowner(ownerField, serialField):
             if self.isValid:
                 getData = 'SELECT owner_id, vehicle_id FROM owner'
                 data = DBTables.getRawData(self, self.connectionStr, getData)
-                print(data)
                 for i, item in enumerate(data):
                     data[i] = (item[0].rstrip(), item[1].rstrip())
-                    print(item[0])
-                    print(item[1])
                 owner = ownerField.get('1.0','end').rstrip()
                 serial = serialField.get('1.0', 'end').rstrip()
                 both = (owner, serial)
                 if both in data:
                     print('vehicle already registered to this user')
                 else:
+                    print('Vehicle Registered')
                     pushVehicleToDB()
+                    pushOwnerToDB()
+                    self.controller.show_frame('MainMenu')
                         
         
         
@@ -243,6 +243,15 @@ class NewVehReg(tk.Frame):
             if self.isDBValid and self.isValid:
                 insertStatement = 'INSERT INTO vehicle VALUES('
                 for each in self.vehicleData:
+                    insertStatement += each.rstrip() + ','
+                insertStatement = insertStatement[:-1]
+                insertStatement += ')'
+                DBTables.pushData(self, self.connectionStr, insertStatement)
+                
+        def pushOwnerToDB():
+            if self.isDBValid and self.isValid:
+                insertStatement = 'insert into owner values('
+                for each in self.ownerData:
                     insertStatement += each.rstrip() + ','
                 insertStatement = insertStatement[:-1]
                 insertStatement += ')'

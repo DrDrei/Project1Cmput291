@@ -1,8 +1,3 @@
-'''
-Created on Mar 10, 2016
-
-@author: drei
-'''
 
 import tkinter as tk
 import time
@@ -13,9 +8,9 @@ from DLReg import DLReg
 from VioReg import VioReg
 from SearchEng import SearchEng
 from NewPerson import NewPerson
-
+from NewPerson2 import NewPerson2
+from NewPerson3 import NewPerson3
 from DBConnect import DBTables
-
 
 class DBApp(tk.Tk):
     def __init__(self, connectionStr, *args, **kwargs):
@@ -26,7 +21,7 @@ class DBApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng, NewPerson):
+        for F in (MainMenu, NewVehReg, AutoReg, DLReg, VioReg, SearchEng, NewPerson, NewPerson2, NewPerson3):
             page_name = F.__name__
             frame = F(connectionStr, container, self)
             self.frames[page_name] = frame
@@ -85,6 +80,4 @@ if __name__ == "__main__":
         print(initDB.connectionStr)
     app = DBApp(initDB.connectionStr)
     app.mainloop()
-    
-    
     
