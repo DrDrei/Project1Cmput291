@@ -12,6 +12,7 @@ TO DO:
 - Time permitting, fix the date functionality when creating a new Person to remove errors like Nov 31st etc...
 - Time permitting, fix prefix space for error handling.
 - Time permitting, is Char[x] only for numbers? no other characters?
+- DL instead of sin for violation records.
  
 
 

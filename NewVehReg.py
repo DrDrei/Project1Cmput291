@@ -181,59 +181,6 @@ class NewVehReg(tk.Frame):
                 self.isValid = False
                 textFieldErr.grid()
                 
-#         def validateAndPushOwners(primaryField, secondaryField, primaryErr, secondaryErr, primaryConfig, secondaryConfig):
-#             primary = primaryField.get('1.0','end').rstrip()
-#             secondary = secondaryField.get('1.0','end').rstrip()
-#             
-#             primaryErr.grid_remove()
-#             secondaryErr.grid_remove()
-#             
-#             isDBprimary = False
-#             
-#             def validation(textField, regConfig):
-#                 if regex.match(regConfig,textField.get('1.0','end')):
-#                     textField.config(bg = self.valid)
-#                 else:
-#                     textField.config(bg = self.invalid)
-#                     
-#             def pushOwners(insertList):
-#                 if self.isDBValid and self.isValid:
-#                     insertStatement = 'INSERT INTO owner VALUES('
-#                     for each in insertList:
-#                         insertStatement += each.rstrip() + ','
-#                     insertStatement = insertStatement[:-1]
-#                     insertStatement += ')'
-#                     DBTables.pushData(self, self.connectionStr, insertStatement)
-#             
-#             def validateDBowner(textField):
-#                 if self.isValid:
-#                     getOwner = 'SELECT sin FROM people'
-#                     ownerData = DBTables.getData(self, self.connectionStr, getOwner)
-#                     compStr = str(textField.get('1.0','end'))
-#                     for each in ownerData:
-#                         if each.rstrip() == compStr.rstrip():
-#                             textField.config(bg = self.invalid)
-#                             self.isDBprimary = True
-#                             print('owner in DB')
-#                     
-#             if len(primary) == 0 and len(secondary) == 0:
-#                 secondaryErr.config(text='Select either secondary or primary')
-#                 secondaryErr.grid()
-#                 validation(primaryField, primaryConfig)
-#                 validation(secondaryField, secondaryConfig)
-#                 self.isValid = False
-#             elif len(primary) > 0 and len(secondary) == 0:
-#                 validation(primaryField, primaryConfig)
-#                 secondaryField.config(bg = self.valid)
-#                 validateDBowner(primaryField)
-#                 if isDBprimary:
-#                     pushOwners(self.primaryData)
-#             elif len(primary) == 0 and len(secondary) > 0:
-#                 
-#                 primaryField.config(bg = self.valid)
-#             else:
-#                 print('both')
-        
         def validateDBsin(textField):
             if self.isValid:
                 getOwner = 'SELECT sin FROM people'
