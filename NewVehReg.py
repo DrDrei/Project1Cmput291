@@ -266,6 +266,8 @@ class NewVehReg(tk.Frame):
                 print(data)
                 for i, item in enumerate(data):
                     data[i] = (item[0].rstrip(), item[1].rstrip())
+                    print(item[0])
+                    print(item[1])
                 owner = ownerField.get('1.0','end').rstrip()
                 serial = serialField.get('1.0', 'end').rstrip()
                 both = (owner, serial)

@@ -17,7 +17,6 @@ from NewPerson import NewPerson
 from DBConnect import DBTables
 
 
-TITLE_FONT = ("Helvetica", 16, "bold")
 class DBApp(tk.Tk):
     def __init__(self, connectionStr, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -36,7 +35,6 @@ class DBApp(tk.Tk):
         self.show_frame("MainMenu")
 
     def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
 
@@ -44,7 +42,7 @@ class MainMenu(tk.Frame):
     def __init__(self, connectionStr, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text = "Main Menu", font = TITLE_FONT)
+        label = tk.Label(self, text = "Main Menu", font = ("Helvetica", 16, "bold"))
         label.pack(fill='x', padx = 10, pady = 10)
         
         vehRegButton = tk.Button(self,
